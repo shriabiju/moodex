@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   THEME VARIABLES — edit here to change theme
+   ============================================ */
+:root {
+  --color-primary:   #9333EA;
+  --color-secondary: #C084FC;
+  --color-accent:      #F59E0B;
+
+  --page-bg-from:    #F9F5FF;
+  --page-bg-mid:     #F5F0FF;
+  --page-bg-to:      #FDF0FF;
+
+  --text-primary:      #3B0764;
+  --text-secondary:    #A855F7;
+  --text-muted:        #C084FC;
+
+  --border-light:      #F5D0FE;
+  --card-bg:           #FFFFFF;
+  --sidebar-bg:        #FFFFFF;
+
+  --blob-1:          rgba(147,51,234,0.12);
+  --blob-2:          rgba(192,132,252,0.12);
+  --blob-3:            rgba(240,171,252,0.2);
+
+  --btn-shadow:      rgba(147,51,234,0.25);
+  --scrollbar-color: #C084FC;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: linear-gradient(
+    135deg,
+    var(--page-bg-from) 0%,
+    var(--page-bg-mid) 40%,
+    var(--page-bg-to)  100%
+  );
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* ============================================
+   REUSABLE CLASSES
+   ============================================ */
+.glass {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 24px rgba(192,38,211,0.06);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+
+.page-bg {
+  background: linear-gradient(
+    135deg,
+    var(--page-bg-from) 0%,
+    var(--page-bg-mid) 40%,
+    var(--page-bg-to)  100%
+  );
+}
+
+.blob-1 { background: var(--blob-1); }
+.blob-2 { background: var(--blob-2); }
+.blob-3 { background: var(--blob-3); }
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--page-bg-from); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-color); border-radius: 3px; }
+
+* { transition: background-color 0.2s ease, border-color 0.2s ease; }
