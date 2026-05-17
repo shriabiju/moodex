@@ -6,6 +6,38 @@ Moodex helps you track your mood, journal your thoughts, and discover beautiful 
 
 ---
 
+## Screenshots
+
+### Landing Page
+<img width="1918" height="866" alt="image" src="https://github.com/user-attachments/assets/a287a798-19ab-4a33-9675-bba3d6fc264e" />
+
+
+### Dashboard
+<img width="1919" height="866" alt="image" src="https://github.com/user-attachments/assets/5c87e869-18fc-4b74-9100-fb99a78130c6" />
+
+
+### Mood Tracker
+<img width="1919" height="866" alt="image" src="https://github.com/user-attachments/assets/f238fa52-e4e8-43c9-b9f7-47bb03475314" />
+
+
+### Journal
+<img width="1919" height="867" alt="image" src="https://github.com/user-attachments/assets/869e9150-4551-4676-b4f6-841448af6ae6" />
+
+
+### Analytics
+<img width="1919" height="868" alt="image" src="https://github.com/user-attachments/assets/15ba5e0f-05d7-4ce4-bc84-4fa434176a82" />
+<br>
+<img width="1919" height="865" alt="image" src="https://github.com/user-attachments/assets/d0884665-6270-4239-a2e0-f6d4cb92cff8" />
+
+
+### Weekly Report
+<img width="1919" height="868" alt="image" src="https://github.com/user-attachments/assets/418df460-e1ec-47b3-8da1-236c7dbff988" />
+<br>
+<img width="1919" height="867" alt="image" src="https://github.com/user-attachments/assets/139968e1-293b-4e06-a6e5-adc509dda37b" />
+
+
+---
+
 ## Tech Stack
 
 **Frontend**
@@ -45,6 +77,7 @@ moodex/
 │       ├── models/
 │       ├── schemas/
 │       └── services/
+├── screenshots/
 └── README.md
 ```
 
@@ -267,6 +300,27 @@ Edit the CSS variables at the top of frontend/src/index.css:
   --btn-shadow:      rgba(147,51,234,0.25);
   --scrollbar-color: #C084FC;
 }
+```
+
+---
+
+## How to Add Screenshots
+
+1. Take screenshots of each page in your browser
+2. Create a folder called screenshots in the root moodex/ folder
+3. Save them with these exact names:
+   - screenshots/landing.png
+   - screenshots/dashboard.png
+   - screenshots/mood.png
+   - screenshots/journal.png
+   - screenshots/analytics.png
+   - screenshots/report.png
+4. Run these commands:
+
+```bash
+git add screenshots/
+git commit -m "add screenshots"
+git push
 ```
 
 ---
