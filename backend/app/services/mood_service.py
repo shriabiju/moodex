@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from fastapi import HTTPException, status
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from app.models.mood import MoodEntry
 from app.schemas.mood import MoodEntryCreate, MoodEntryUpdate
 
@@ -57,7 +57,7 @@ def delete_mood_entry(db: Session, entry_id: int, user_id: int) -> dict:
     return {"message": "Mood entry deleted successfully"}
 
 def get_weekly_mood_summary(db: Session, user_id: int) -> list:
-    seven_days_ago = datetime.utcnow() - timedelta(days=7)
+    seven_days_ago = datetime.now(timezone.utc) - timedelta(days=7)
     entries = (
         db.query(MoodEntry)
         .filter(
@@ -68,3 +68,4 @@ def get_weekly_mood_summary(db: Session, user_id: int) -> list:
         .all()
     )
     return entries
+    
