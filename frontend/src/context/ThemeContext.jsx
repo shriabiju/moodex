@@ -23,4 +23,7 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
+// This file intentionally exports both a component (ThemeProvider) and a hook
+// (useTheme) — see the same note in AuthContext.jsx.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTheme = () => useContext(ThemeContext);

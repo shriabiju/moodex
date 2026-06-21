@@ -59,4 +59,9 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+// This file intentionally exports both a component (AuthProvider) and a hook
+// (useAuth). Splitting them into separate files would only improve dev-server
+// Fast Refresh granularity — it has no effect on production behavior — and
+// would require updating every importer across the app, so it's left as-is.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
