@@ -11,6 +11,40 @@ Moodex helps you track your mood, journal your thoughts, and discover beautiful 
 
 ---
 
+## Screenshots
+
+**Landing Page**
+![Landing page](screenshots/ss1.png)
+
+**Login**
+![Login page](screenshots/ss2.png)
+
+**Sign Up / Onboarding**
+![Sign up and onboarding](screenshots/ss3.png)
+
+**Dashboard**
+![Dashboard](screenshots/ss4.png)
+
+**Mood Tracker**
+![Mood tracker](screenshots/ss5.png)
+
+**Journal**
+![Journal](screenshots/ss6.png)
+
+**Journal Entry with Sentiment Analysis**
+![Journal entry with sentiment analysis](screenshots/ss7.png)
+
+**Analytics**
+![Analytics dashboard](screenshots/ss8.png)
+
+**AI Insights**
+![AI wellness insights](screenshots/ss9.png)
+
+**Settings**
+![Settings page](screenshots/ss10.png)
+
+---
+
 ## Tech Stack
 
 **Frontend**
