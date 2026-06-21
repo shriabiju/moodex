@@ -1,40 +1,13 @@
 # Moodex 🌸
 
+[![CI](https://github.com/shriabiju/moodex/actions/workflows/ci.yml/badge.svg)](https://github.com/shriabiju/moodex/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
+[![React](https://img.shields.io/badge/react-19-61DAFB)](https://react.dev/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](#license)
+
 > AI-powered emotional wellness analytics platform
 
 Moodex helps you track your mood, journal your thoughts, and discover beautiful patterns in your emotional life — all powered by AI and NLP.
-
----
-
-## Screenshots
-
-### Landing Page
-<img width="1918" height="866" alt="image" src="https://github.com/user-attachments/assets/a287a798-19ab-4a33-9675-bba3d6fc264e" />
-
-
-### Dashboard
-<img width="1919" height="866" alt="image" src="https://github.com/user-attachments/assets/5c87e869-18fc-4b74-9100-fb99a78130c6" />
-
-
-### Mood Tracker
-<img width="1919" height="866" alt="image" src="https://github.com/user-attachments/assets/f238fa52-e4e8-43c9-b9f7-47bb03475314" />
-
-
-### Journal
-<img width="1919" height="867" alt="image" src="https://github.com/user-attachments/assets/869e9150-4551-4676-b4f6-841448af6ae6" />
-
-
-### Analytics
-<img width="1919" height="868" alt="image" src="https://github.com/user-attachments/assets/15ba5e0f-05d7-4ce4-bc84-4fa434176a82" />
-<br>
-<img width="1919" height="865" alt="image" src="https://github.com/user-attachments/assets/d0884665-6270-4239-a2e0-f6d4cb92cff8" />
-
-
-### Weekly Report
-<img width="1919" height="868" alt="image" src="https://github.com/user-attachments/assets/418df460-e1ec-47b3-8da1-236c7dbff988" />
-<br>
-<img width="1919" height="867" alt="image" src="https://github.com/user-attachments/assets/139968e1-293b-4e06-a6e5-adc509dda37b" />
-
 
 ---
 
@@ -77,7 +50,6 @@ moodex/
 │       ├── models/
 │       ├── schemas/
 │       └── services/
-├── screenshots/
 └── README.md
 ```
 
@@ -85,7 +57,23 @@ moodex/
 
 ## Getting Started
 
-### Prerequisites
+### Quickest path: Docker Compose
+
+If you have Docker installed, this spins up the backend, frontend, and a MySQL database with one command:
+
+```bash
+cp backend/.env.example backend/.env   # adjust SECRET_KEY if you like
+docker compose up --build
+```
+
+- Frontend: http://localhost:5173
+- Backend + API docs: http://localhost:8000/docs
+
+---
+
+### Manual Setup
+
+#### Prerequisites
 - Python 3.10+
 - Node.js 18+
 - MySQL 8.0+
@@ -96,6 +84,7 @@ moodex/
 
 ```bash
 cd backend
+cp .env.example .env   # then fill in your MySQL credentials and a real SECRET_KEY
 python -m pip install -r requirements.txt
 python -m uvicorn app.main:app --reload
 ```
@@ -106,10 +95,23 @@ API docs at: http://localhost:8000/docs
 
 ---
 
+### Running Tests
+
+```bash
+cd backend
+pip install -r requirements-dev.txt
+pytest -v
+```
+
+Tests run against an isolated in-memory SQLite database, so no MySQL connection is needed to run the suite. The same command runs automatically in CI on every push (see the badge above).
+
+---
+
 ### Frontend Setup
 
 ```bash
 cd frontend
+cp .env.example .env
 npm install
 npm run dev
 ```
@@ -130,11 +132,13 @@ Tables are created automatically on first backend startup.
 
 ## Environment Variables
 
+Copy `.env.example` to `.env` in both `backend/` and `frontend/` and fill in real values. Never commit your actual `.env` files (they're already gitignored).
+
 ### backend/.env
 
 ```env
 DATABASE_URL=mysql+pymysql://root:yourpassword@localhost:3306/moodex
-SECRET_KEY=your-super-secret-key
+SECRET_KEY=your-super-secret-key   # generate with: python -c "import secrets; print(secrets.token_hex(32))"
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=10080
 ```
@@ -151,20 +155,20 @@ VITE_API_URL=http://localhost:8000
 
 | Feature | Status |
 |---------|--------|
-| JWT Authentication | Done |
+| JWT Authentication (bcrypt + rate-limited) | Done |
 | Mood Tracking | Done |
 | Journaling | Done |
-| NLP Sentiment Analysis | Done |
-| Analytics Dashboard | Done |
+| NLP Sentiment Analysis (VADER + TextBlob ensemble) | Done |
+| Analytics Dashboard (SQL-aggregated) | Done |
 | AI Wellness Insights | Done |
 | Weekly Report | Done |
 | Onboarding Flow | Done |
 | Settings | Done |
 | Landing Page | Done |
 | Responsive Design | Done |
-| Dark/Light Theme | Coming Soon |
-| PDF Export | Coming Soon |
-| Voice Journaling | Coming Soon |
+| Automated test suite (pytest, 37 tests) | Done |
+| CI (GitHub Actions) | Done |
+| Dockerized (backend + frontend + MySQL) | Done |
 
 ---
 
@@ -304,27 +308,6 @@ Edit the CSS variables at the top of frontend/src/index.css:
 
 ---
 
-## How to Add Screenshots
-
-1. Take screenshots of each page in your browser
-2. Create a folder called screenshots in the root moodex/ folder
-3. Save them with these exact names:
-   - screenshots/landing.png
-   - screenshots/dashboard.png
-   - screenshots/mood.png
-   - screenshots/journal.png
-   - screenshots/analytics.png
-   - screenshots/report.png
-4. Run these commands:
-
-```bash
-git add screenshots/
-git commit -m "add screenshots"
-git push
-```
-
----
-
 ## Future Roadmap
 
 | Feature | Effort |
@@ -334,8 +317,6 @@ git push
 | Gemini or OpenAI AI summaries | Medium |
 | Dark mode toggle | Easy |
 | Mood streak tracking | Easy |
-| Mobile responsive polish | Easy |
-| Deploy to Vercel and Render | Easy |
 | HuggingFace transformer NLP | Hard |
 
 ---
