@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { User, Mail, Lock, Bell, Palette, Shield } from "lucide-react";
+import { User, Bell, Palette, Shield } from "lucide-react";
 import PageWrapper from "../components/layout/PageWrapper";
 import { useAuth } from "../context/AuthContext";
 

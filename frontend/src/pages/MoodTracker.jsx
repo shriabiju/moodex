@@ -4,8 +4,8 @@ import axios from "axios";
 import PageWrapper from "../components/layout/PageWrapper";
 import Skeleton from "../components/common/Skeleton";
 import { API_URL, MOODS } from "../utils/constants";
-import { getMoodEmoji, getMoodColor, getScoreColor, getScoreLabel } from "../utils/moodHelpers";
-import { formatDate, formatTime } from "../utils/formatDate";
+import { getMoodEmoji, getMoodColor, getScoreLabel } from "../utils/moodHelpers";
+import { formatDate } from "../utils/formatDate";
 
 export default function MoodTracker() {
   const [entries, setEntries]       = useState([]);
@@ -21,8 +21,6 @@ export default function MoodTracker() {
     notes: "",
   });
 
-  useEffect(() => { fetchEntries(); }, []);
-
   const fetchEntries = async () => {
     try {
       const res = await axios.get(`${API_URL}/api/mood/?limit=10`);
@@ -33,6 +31,10 @@ export default function MoodTracker() {
       setLoading(false);
     }
   };
+
+  // fetchEntries is stable enough for an on-mount-only fetch.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { fetchEntries(); }, []);
 
   const handleSlider = (field) => (e) => {
     setForm((prev) => ({ ...prev, [field]: parseInt(e.target.value) }));

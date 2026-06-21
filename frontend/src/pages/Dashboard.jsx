@@ -7,10 +7,9 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import PageWrapper from "../components/layout/PageWrapper";
-import Card from "../components/common/Card";
 import Skeleton from "../components/common/Skeleton";
 import { useAuth } from "../context/AuthContext";
-import { API_URL, MOODS } from "../utils/constants";
+import { API_URL } from "../utils/constants";
 import { getMoodEmoji, getMoodColor } from "../utils/moodHelpers";
 import { formatDate } from "../utils/formatDate";
 

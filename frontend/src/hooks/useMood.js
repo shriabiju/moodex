@@ -19,6 +19,8 @@ export function useMood(limit = 30) {
     }
   }, [limit]);
 
+  // fetchMoods is memoized via useCallback above — standard fetch-on-mount/dep-change pattern.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { fetchMoods(); }, [fetchMoods]);
 
   const createMood = async (data) => {

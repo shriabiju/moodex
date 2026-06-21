@@ -5,7 +5,7 @@ import { Plus, Trash2, Edit3, Save, X, BookOpen, Smile, Meh, Frown } from "lucid
 import PageWrapper from "../components/layout/PageWrapper";
 import Skeleton from "../components/common/Skeleton";
 import { API_URL } from "../utils/constants";
-import { formatDate, formatTime } from "../utils/formatDate";
+import { formatDate } from "../utils/formatDate";
 
 const SENTIMENT_CONFIG = {
   positive: { icon: Smile, color: "#10B981", bg: "bg-emerald-50", border: "border-emerald-100", label: "Positive" },
@@ -24,14 +24,6 @@ export default function Journal() {
   const [form, setForm] = useState({ title: "", content: "" });
   const textareaRef = useRef(null);
 
-  useEffect(() => { fetchEntries(); }, []);
-
-  useEffect(() => {
-    if (showForm && textareaRef.current) {
-      textareaRef.current.focus();
-    }
-  }, [showForm]);
-
   const fetchEntries = async () => {
     try {
       const res = await axios.get(`${API_URL}/api/journal/`);
@@ -42,6 +34,16 @@ export default function Journal() {
       setLoading(false);
     }
   };
+
+  // fetchEntries is stable enough for an on-mount-only fetch.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { fetchEntries(); }, []);
+
+  useEffect(() => {
+    if (showForm && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [showForm]);
 
   const handleCreate = async () => {
     if (!form.title.trim() || !form.content.trim()) return;

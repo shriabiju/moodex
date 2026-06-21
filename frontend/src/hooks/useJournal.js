@@ -22,6 +22,8 @@ export function useJournal(limit = 30) {
     }
   }, [limit]);
 
+  // fetchEntries is memoized via useCallback above — standard fetch-on-mount/dep-change pattern.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { fetchEntries(); }, [fetchEntries]);
 
   const createEntry = async (data) => {

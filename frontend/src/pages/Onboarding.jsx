@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Zap, Smile, BookOpen, BarChart2, ArrowRight } from "lucide-react";
+import { Zap, ArrowRight } from "lucide-react";
 
 const steps = [
   {

@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Mail, Lock, Zap } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import Input from "../components/common/Input";
-import Button from "../components/common/Button";
 
 export default function Login() {
   const { login } = useAuth();

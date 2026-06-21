@@ -7,7 +7,7 @@ import {
 } from "recharts";
 import PageWrapper from "../components/layout/PageWrapper";
 import Skeleton from "../components/common/Skeleton";
-import { API_URL, MOOD_COLORS } from "../utils/constants";
+import { API_URL } from "../utils/constants";
 import { formatDateShort } from "../utils/formatDate";
 
 const CHART_COLORS = ["#9333EA", "#C084FC", "#F472B6", "#FB7185", "#FBBF24", "#34D399", "#60A5FA"];
@@ -34,8 +34,6 @@ export default function Analytics() {
   const [loading,      setLoading]      = useState(true);
   const [days,         setDays]         = useState(7);
 
-  useEffect(() => { fetchAll(); }, [days]);
-
   const fetchAll = async () => {
     setLoading(true);
     try {
@@ -57,6 +55,10 @@ export default function Analytics() {
       setLoading(false);
     }
   };
+
+  // fetchAll is redefined each render and intentionally not memoized — including it in deps would refetch every render.
+  // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
+  useEffect(() => { fetchAll(); }, [days]);
 
   const statCards = [
     { label: "Avg Stress",      value: summary?.avg_stress,      unit: "/10", color: "#F472B6", bg: "bg-pink-50",    border: "border-pink-100"   },
