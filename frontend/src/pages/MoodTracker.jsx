@@ -121,7 +121,7 @@ export default function MoodTracker() {
                     </span>
                     <span className="text-xs font-medium px-2 py-0.5 rounded-full"
                       style={{ backgroundColor: `${color}15`, color }}>
-                      {getScoreLabel(form[field])}
+                      {getScoreLabel(form[field], field)}
                     </span>
                   </div>
                 </div>
