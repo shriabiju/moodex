@@ -1,30 +1,48 @@
 from sqlalchemy.orm import Session
-from datetime import datetime, timedelta
+from sqlalchemy import func
+from datetime import datetime, timedelta, timezone
 from app.models.mood import MoodEntry
 from app.models.journal import JournalEntry
 
 def get_weekly_averages(db: Session, user_id: int) -> dict:
-    seven_days_ago = datetime.utcnow() - timedelta(days=7)
-    entries = db.query(MoodEntry).filter(
-        MoodEntry.user_id == user_id,
-        MoodEntry.created_at >= seven_days_ago
-    ).all()
+    seven_days_ago = datetime.now(timezone.utc) - timedelta(days=7)
 
-    if not entries:
+    # Aggregate in SQL (AVG/COUNT) instead of pulling every row into Python —
+    # scales to large histories without growing memory or transfer size.
+    stats = (
+        db.query(
+            func.avg(MoodEntry.stress_level),
+            func.avg(MoodEntry.energy_level),
+            func.avg(MoodEntry.sleep_quality),
+            func.avg(MoodEntry.productivity_score),
+            func.count(MoodEntry.id),
+        )
+        .filter(MoodEntry.user_id == user_id, MoodEntry.created_at >= seven_days_ago)
+        .one()
+    )
+    avg_stress, avg_energy, avg_sleep, avg_productivity, count = stats
+
+    if not count:
         return {}
 
-    count = len(entries)
+    mood_counts = dict(
+        db.query(MoodEntry.mood, func.count(MoodEntry.id))
+        .filter(MoodEntry.user_id == user_id, MoodEntry.created_at >= seven_days_ago)
+        .group_by(MoodEntry.mood)
+        .all()
+    )
+
     return {
-        "avg_stress": round(sum(e.stress_level for e in entries) / count, 2),
-        "avg_energy": round(sum(e.energy_level for e in entries) / count, 2),
-        "avg_sleep": round(sum(e.sleep_quality for e in entries) / count, 2),
-        "avg_productivity": round(sum(e.productivity_score for e in entries) / count, 2),
+        "avg_stress": round(avg_stress, 2),
+        "avg_energy": round(avg_energy, 2),
+        "avg_sleep": round(avg_sleep, 2),
+        "avg_productivity": round(avg_productivity, 2),
         "total_entries": count,
-        "mood_counts": _count_moods(entries)
+        "mood_counts": mood_counts
     }
 
 def get_mood_trend(db: Session, user_id: int, days: int = 7) -> list:
-    since = datetime.utcnow() - timedelta(days=days)
+    since = datetime.now(timezone.utc) - timedelta(days=days)
     entries = db.query(MoodEntry).filter(
         MoodEntry.user_id == user_id,
         MoodEntry.created_at >= since
@@ -43,7 +61,7 @@ def get_mood_trend(db: Session, user_id: int, days: int = 7) -> list:
     ]
 
 def get_sentiment_trend(db: Session, user_id: int, days: int = 7) -> list:
-    since = datetime.utcnow() - timedelta(days=days)
+    since = datetime.now(timezone.utc) - timedelta(days=days)
     entries = db.query(JournalEntry).filter(
         JournalEntry.user_id == user_id,
         JournalEntry.created_at >= since,
@@ -61,10 +79,12 @@ def get_sentiment_trend(db: Session, user_id: int, days: int = 7) -> list:
     ]
 
 def get_mood_distribution(db: Session, user_id: int) -> dict:
-    entries = db.query(MoodEntry).filter(
-        MoodEntry.user_id == user_id
-    ).all()
-    return _count_moods(entries)
+    return dict(
+        db.query(MoodEntry.mood, func.count(MoodEntry.id))
+        .filter(MoodEntry.user_id == user_id)
+        .group_by(MoodEntry.mood)
+        .all()
+    )
 
 def get_sleep_productivity_correlation(db: Session, user_id: int) -> list:
     entries = db.query(MoodEntry).filter(
@@ -81,9 +101,3 @@ def get_sleep_productivity_correlation(db: Session, user_id: int) -> list:
         }
         for e in entries
     ]
-
-def _count_moods(entries: list) -> dict:
-    counts = {}
-    for e in entries:
-        counts[e.mood] = counts.get(e.mood, 0) + 1
-    return counts
